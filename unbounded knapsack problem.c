@@ -1,3 +1,4 @@
+//unbounded knapsack problem (UKP) 
 //有N件物品和一个容量为K的背包。第i件物品的價值是V[i]，重量是W[i]。求解将哪些物品(可一種物品放多次)装入背包可使价值总和最大。
 
 //這是經點DP題目之一
@@ -11,31 +12,26 @@ int gValue[gN] = {8, 10, 4, 5, 5};
 int gWeight[gN] = {6, 4, 2, 4, 3};
 
 void BagProblem(){
-	int DP[gN][gK + 1] = {0};
-  //初始化第一列，只有一個物件被納入考量時
-  //其實若不想要這行，宣告成DP[gN + 1][gK + 1]可以省去很多麻煩
-  
-	for(int j = 1; j <= gK; ++j){
-		if(j >= gWeight[0]){
-			DP[0][j] = DP[0][j - gWeight[0]] + gValue[0];
-		}
-	}
-	for(int i = 1; i < gN; ++i){
+	//將陣列+1需然浪費多餘的空間，但是可以省去很多邊借的判斷式
+	int DP[gN + 1][gK + 1] = {0};
+
+	//DP[i][j]儲存前i種物品的「非負(>=0)數量集合」中，在重量為j的情況下，最大價值	
+	for(int i = 0; i < gN; ++i){
 		for(int j = 1; j <= gK; ++j){
 			if(j >= gWeight[i]){
-				DP[i][j] = MAX(DP[i][j - gWeight[0]] + gValue[i], DP[i -1][j]);
+				DP[i + 1][j] = MAX3(DP[i][j - gWeight[i]] + gValue[i], DP[i + 1][j - gWeight[i]] + gValue[i],DP[i][j]);
 			}else{
-				DP[i][j] = DP[i - 1][j];
+				DP[i + 1][j] = DP[i][j];
 			}
 		}
 	}
 
-	for(int i = 0; i < gN; ++i){
+	for(int i = 0; i <= gN; ++i){
 		printf("DP[%2d]: ", i);
-		for(int j = 0; j < gK + 1; ++j){
+		for(int j = 0; j <= gK; ++j){
 			printf("%2d, ", DP[i][j]);
 		}
 		printf("\n");
 	}
-
 }
+
