@@ -11,7 +11,7 @@ const int gN = 5;
 int gValue[gN] = {8, 10, 4, 5, 5};
 int gWeight[gN] = {6, 4, 2, 4, 3};
 
-void BagProblem(){
+void UKP(){
 	//將陣列+1需然浪費多餘的空間，但是可以省去很多邊借的判斷式
 	int DP[gN + 1][gK + 1] = {0};
 
@@ -35,3 +35,25 @@ void BagProblem(){
 	}
 }
 
+//後來發現MAX3有點多餘，由於在同一個重量w下 DP[i-1][w]<=DP[i][w]，因此在UKP的例子中根本毋須去比前一列
+void UKP2(){
+	int DP[gN + 1][gK + 1] = {0};
+
+	for(int i = 0; i < gN; ++i){
+		for(int j = 1; j <= gK; ++j){
+			if(j >= gWeight[i]){
+				DP[i + 1][j] = MAX(DP[i + 1][j - gWeight[i]] + gValue[i], DP[i][j]);
+			}else{
+				DP[i + 1][j] = DP[i][j];
+			}
+		}
+	}
+
+	for(int i = 0; i < gN + 1; ++i){
+		printf("DP[%2d]: ", i);
+		for(int j = 0; j < gK + 1; ++j){
+			printf("%2d, ", DP[i][j]);
+		}
+		printf("\n");
+	}
+}
