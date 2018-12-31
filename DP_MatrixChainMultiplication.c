@@ -78,7 +78,7 @@ void test2(){
 	
 	//l：長度為多少的矩陣一組
 	//i：row、j：column
-	//x：這一刀切割在第i個矩陣之後	
+	//x：切割在第x個矩陣之後	
 	for(l = 2; l <= N; ++l){
 		for(int i = 0; i <= N - l; ++i){
 			j = i + l - 1;
