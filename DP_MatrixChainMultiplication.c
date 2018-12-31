@@ -35,6 +35,7 @@ const int N = 5;
 int gRow[] = {4,5,3,6,8};
 int gCol[] = {5,3,6,8,2};
 
+//這版本是未曾看過他人程式碼下寫的，覺的冗餘的部分挺多的，不過基本架構和流程已經有了
 void test1(){
 	int dp[N][N] = {0};
 	int yOffset = 1;
