@@ -68,3 +68,45 @@ void test1(){
 		printf("\n\n");
 	}
 }
+
+
+//這版本有先看過別人的寫法
+//變數命名比較直觀，不用特別設計就能很直覺的寫出來
+void test2(){
+	int dp[N][N] = {0};
+	int i, j, l, tmp;
+	
+	//l：長度為多少的矩陣一組
+	//i：row、j：column
+	//x：這一刀切割在第i個矩陣之後	
+	for(l = 2; l <= N; ++l){
+		for(int i = 0; i <= N - l; ++i){
+			j = i + l - 1;
+			dp[i][j] = INT_MAX;
+			for(int x = i; x < i + l; ++x){
+				tmp = dp[i][x] + dp[x + 1][j] + gRow[i]*gCol[j]*gCol[x];
+				if(tmp < dp[i][j]){
+					dp[i][j] = tmp;
+				}
+			}
+
+			for(int k = 0; k < N; ++k){
+				for(int q = 0; q < N; ++q){
+					printf("%4d ", dp[k][q]);
+				}
+				printf("\n");
+			}
+			printf("\n\n");
+		}
+	}
+
+
+	for(int k = 0; k < N; ++k){
+		for(int q = 0; q < N; ++q){
+			printf("%4d ", dp[k][q]);
+		}
+		printf("\n");
+	}
+	printf("\n\n");
+	
+}
