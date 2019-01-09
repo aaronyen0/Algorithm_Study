@@ -56,3 +56,48 @@ void Permutations2(int *arr, int arrSize, int idx) {
 		swap(&arr[idx], &arr[i]);
 	}
 }
+
+
+/**
+ * version3
+ * 不使用遞迴做出所有排列
+ * 自定義stack堆疊取代遞迴的堆疊
+ * stack[i]代表當進入下個迴圈時，陣列的第i個位子，從陣列的第i + stack[i]的位置選值
+ * 注意每進一層迴圈，stack[i]能選的的上限就少1
+ * 因此必須滿足 i + stack[i] < arrSize
+ * 當時上式不滿足時，代表遞迴要退回前一格，退回去的同時，要將計數器規0，並記得將交換過的值換回來
+ *
+ * 覺得寫得很亂，但是概念應該沒問題，要再想想如何設計得更簡潔
+ */
+void Permutations3_NonRecursive(int *arr, const int arrSize) {
+	int *stack = (int*)calloc(arrSize, sizeof(int));
+	int offset = 0;
+
+	while (true) {
+		if (offset == arrSize) {
+			for (int i = 0; i < arrSize; ++i) {
+				printf("%d ", arr[i]);
+			}
+			printf("\n");
+			--offset;
+			continue;
+		}
+		/*
+		printf("offset = %d, stack = ", offset);
+		for (int i = 0; i < arrSize; ++i) {
+			printf("%d ", stack[i]);
+		}
+		printf("\n");
+		*/
+		if (stack[offset] + offset == arrSize) {
+			if (offset == 0) {
+				return;
+			}
+			stack[offset--] = 0;
+			swap(&arr[offset], &arr[offset + stack[offset] - 1]); //換回來
+			continue;
+		}
+		swap(&arr[offset], &arr[offset + stack[offset]]); //交換
+		stack[offset++]++;
+	}
+}
