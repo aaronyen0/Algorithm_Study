@@ -100,5 +100,5 @@ void Permutations3_NonRecursive(int *arr, const int arrSize) {
 		swap(&arr[offset], &arr[offset + stack[offset]]); //交換
 		stack[offset++]++;
 	}
-	
+	free(stack);
 }
