@@ -31,3 +31,28 @@ void Permutations1(int *arr, int arrSize, int* output, int idx) {
 	}
 }
 
+
+/**
+ * version2
+ * 程式碼更簡潔，甚至不用buffer
+ * 核心概念為
+ * 將選到的值放到最前面來，這樣還有一個好處idx設計上更簡單
+ * 其他人從下一個idx開始選擇
+ *
+ * 寫到這邊發現version1其實也不用buffer
+ * 前一版若不是print output而是ptint arr，應該也是得到所有排列
+ */ 
+void Permutations2(int *arr, int arrSize, int idx) {
+	if (idx == arrSize) {
+		for (int i = 0; i < arrSize; ++i) {
+			printf("%d ", arr[i]);
+		}
+		printf("\n");
+		return;
+	}
+	for (int i = idx; i < arrSize ; ++i) {
+		Swap(&arr[idx], &arr[i]);
+		Permutations2(arr, arrSize, idx + 1);
+		swap(&arr[idx], &arr[i]);
+	}
+}
