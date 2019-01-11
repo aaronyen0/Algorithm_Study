@@ -29,8 +29,9 @@ void PrintArr(int *arr, int len) {
 }
 
 /**
- *改成遞迴版之後，對陣列的每個index都可以決定選或不選
- *不論選或不選，各自進到下一層做一樣的事情
+ * version1
+ * 改成遞迴版之後，對陣列的每個idx都可以決定選或不選
+ * 核心思想為，arr[idx]到底選或不選，不論哪種情境都各自進到下一層做一樣的選擇
  */
 void Combinations(int arr[], int size, int idx, int *selectArr, int selectNum) {
 	if (idx == size) {
@@ -41,6 +42,27 @@ void Combinations(int arr[], int size, int idx, int *selectArr, int selectNum) {
 
 	//選
 	selectArr[selectNum++] = arr[idx];
-	PrintArr(selectArr, selectNum); //若在這一層有選的話，代表多出一種集合，將之印出來
+	PrintArr(selectArr, selectNum);
 	Combinations(arr, size, idx + 1, selectArr, selectNum);
+}
+
+/**
+ * version2
+ * 這個版本以seletcNum為考量
+ * selectArr的第幾個數字，決定放入某個值
+ * 但是這個值只能是arr中 index >= idx的某個數字
+ * 也就是當我們選了某個 arr[i]放入 selectArr[selectNum]後
+ * 下一層的所有人都不能再把 indx <= i的值納入選擇
+ */
+void Combinations2(int arr[], int size, int idx, int *selectArr, int selectNum) {
+	if (idx >= size) {
+		return;
+	}
+	
+	for (int i = idx; i < size; ++i) {
+		selectArr[selectNum] = arr[i];
+		PrintArr(selectArr, selectNum + 1);
+		Combinations2(arr, size, i + 1, selectArr, selectNum + 1);
+		//注意下一層起可選範圍從i+1開始
+	}
 }
