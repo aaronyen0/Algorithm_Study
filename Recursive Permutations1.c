@@ -67,7 +67,7 @@ void Permutations2(int *arr, int arrSize, int idx) {
  * 因此必須滿足 i + stack[i] < arrSize
  * 當時上式不滿足時，代表遞迴要退回前一格，退回去的同時，要將計數器規0，並記得將交換過的值換回來
  *
- * 覺得寫得很亂，但是概念應該沒問題，要再想想如何設計得更簡潔
+ * 覺得寫得有點亂，但是堆疊的概念本身沒問題，可再想想如何設計得更簡潔
  */
 void Permutations3_NonRecursive(int *arr, const int arrSize) {
 	int *stack = (int*)calloc(arrSize, sizeof(int));
@@ -91,7 +91,7 @@ void Permutations3_NonRecursive(int *arr, const int arrSize) {
 		*/
 		if (stack[offset] + offset == arrSize) {
 			if (offset == 0) {
-				return;
+				break;
 			}
 			stack[offset--] = 0;
 			swap(&arr[offset], &arr[offset + stack[offset] - 1]); //換回來
