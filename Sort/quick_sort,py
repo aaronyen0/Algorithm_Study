@@ -1,0 +1,27 @@
+def quicksort(nums, left, right):
+    if left >= right:
+        return
+    
+    i = left + 1
+    j = right
+    pivot = nums[left]
+    while True:
+        while i <= right and nums[i] < pivot:
+            i += 1
+        while j > left and nums[j] >= pivot:
+            j -= 1
+        if i >= j:
+            break
+        nums[j], nums[i] = nums[i], nums[j]
+    nums[left], nums[j] = nums[j], nums[left]
+    quicksort(nums, left, j-1)
+    quicksort(nums, j + 1, right)
+    
+
+from random import randint
+n = 20000
+nums = [randint(1,10000000) for i in range(n)]
+
+nums1 = nums[:]
+quicksort(nums1, 0, n-1)
+assert nums1 == sorted(nums)
